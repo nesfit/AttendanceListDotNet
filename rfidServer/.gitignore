@@ -1,0 +1,5 @@
+**/bin
+**/obj
+.vs
+RfidServer.sln.DotSettings.user
+**/RfidServer.db

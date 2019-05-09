@@ -1,0 +1,43 @@
+﻿@model IEnumerable<int>
+
+@{
+	ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Student</h4>
+<hr />
+<form asp-action="Edit">
+	<dl class="row">
+		<dt class="col-sm-2">
+			Number of students:
+		</dt>
+		<dd class="col-sm-4">
+			@Model.Count()
+		</dd>
+	</dl>
+	<dl class="row">
+		<dt class="col-sm-2">
+			Variant:
+		</dt>
+		<dd class="col-sm-4">
+			@Html.DropDownList(
+				"VariantId",
+				(SelectList) ViewData["Variants"],
+				string.Empty,
+				new {@class = "form-control", style = "width:3in"})
+		</dd>
+	</dl>
+	@for (var i = 0; i < Model.Count(); i++)
+	{
+		<input type="hidden" value="@Model.ElementAt(i)" name="[@i]" />
+	}
+	<div class="form-group">
+		<input type="submit" value="Save" class="btn btn-primary" />
+	</div>
+</form>
+
+<div>
+	<a asp-action="Index">Back to List</a>
+</div>

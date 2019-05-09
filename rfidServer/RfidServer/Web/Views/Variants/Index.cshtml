@@ -1,0 +1,77 @@
+﻿@model IEnumerable<RfidServer.Web.ViewModels.VariantViewModel>
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+<h1>Variants</h1>
+
+<div>
+	<div class="form-group" style="display: inline-block; margin: 10px">
+		<input type="submit" value="Find & Add Variant" class="btn btn-primary" id="variantButton" onclick="handleVariantButton('@ViewBag.isLogged' === '@true')" />
+	</div>
+	<div style="display: inline-block; float: right; height: 38px; margin: 10px 0 10px 0">
+		Automatic registration
+		<label class="switch">
+			@if (ViewBag.autoRegister)
+			{
+				<input type="checkbox" id="automaticRegButton" checked>
+			}
+			else
+			{
+				<input type="checkbox" id="automaticRegButton">
+			}
+			<span class="slider round"></span>
+		</label>
+	</div>
+</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.Course.Abbrv)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Title)
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				string variantStyle = "";
+				if (ViewBag.activeVariantId == @item.Id)
+				{
+					variantStyle = "background-color: rgba(0, 255, 0, 0.2);";
+				}
+				<tr style="@variantStyle">
+					<td>
+						@Html.DisplayFor(modelItem => item.Course.Abbrv)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Title)
+					</td>
+					@if (ViewBag.activeVariantId != @item.Id)
+					{
+					<td>
+						<form asp-action="Index" method="post" role="form">
+							<input type="hidden" value="@item.Id" name="activeVariantId" />
+							<button type="submit" class="btn btn-link" style="padding: 0; margin: 0 0 5px 0;">Activate</button> |
+							<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+							<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+						</form>
+					</td>
+					}
+					else
+					{
+						<td>
+							Active |
+							<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+							<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+						</td>
+					}
+				</tr>
+			}
+		</tbody>
+	</table>

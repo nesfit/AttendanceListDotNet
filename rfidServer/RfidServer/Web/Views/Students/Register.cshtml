@@ -1,0 +1,57 @@
+﻿@model IList<int>
+
+@{
+	ViewData["Title"] = "Register";
+}
+
+<h1>Register</h1>
+
+<h3>Are you sure you want to register these students?</h3>
+<div>
+	<hr />
+	<form asp-action="Register">
+		<dl class="row">
+			<dt class="col-sm-2">
+				Number of students:
+			</dt>
+			<dd class="col-sm-10">
+				@Model.Count()
+			</dd>
+			<dt class="col-sm-2">
+				Registering variant:
+			</dt>
+			<dd class="col-sm-10">
+				@ViewBag.Variant.Title
+			</dd>
+			<dt class="col-sm-2">
+				Course:
+			</dt>
+			<dd class="col-sm-10">
+				@ViewBag.Variant.CourseAbbrv
+			</dd>
+			<dt class="col-sm-2">
+				Year:
+			</dt>
+			<dd class="col-sm-10">
+				@ViewBag.Variant.Year
+			</dd>
+			<dt class="col-sm-2">
+				Sem:
+			</dt>
+			<dd class="col-sm-10">
+				@ViewBag.Variant.Sem
+			</dd>
+		</dl>
+		<input type="hidden" value="@ViewBag.Variant.Id" name="variantId" />
+		@for (var i = 0; i < Model.Count(); i++)
+		{
+			<input type="hidden" value="@Model.ElementAt(i)" name="[@i]" />
+		}
+		<div class="form-group">
+			<input type="submit" value="Register" class="btn btn-primary" />
+		</div>
+	</form>
+</div>
+<div>
+	<a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,112 @@
+﻿@model IEnumerable<RfidServer.Web.ViewModels.StudentViewModel>
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+<div class="alert alert-warning alert-dismissible fade show" id="alertNoStudentsSelected" role="alert" style="display: none">
+	Please select some students.
+	<button type="button" class="close" aria-label="Close" onclick="closeAlert('NoStudentsSelected')">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="alert alert-warning alert-dismissible fade show" id="alertNoVariantSelected" role="alert" style="display: none">
+	Please select some variant for registration.
+	<button type="button" class="close" aria-label="Close" onclick="closeAlert('NoVariantSelected')">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+
+<h1>Students</h1>
+<div style="display: flex; flex-flow: row wrap; align-items: center;">
+	@using (Html.BeginForm(FormMethod.Get, new { id = "filter-form" }))
+	{
+		<div style="display: inline-block; margin: 10px 0 10px 10px">
+			<p>
+				Find student: @Html.TextBox("SearchString", "", new { @class = "form-control" })
+			</p>
+		</div>
+		<div style="display: inline-block; margin-right: 50px">
+			<input type="submit" value="Search" />
+		</div>
+		<div id="variantSelector" style="display: inline-block; margin: 10px 80px 10px 10px">
+			<p>
+				Select variant for registration: @Html.DropDownList(
+"VariantId",
+(SelectList) ViewData["Variants"],
+string.Empty,
+new {@class = "form-control", id = "variant-selector", onchange = "this.form.submit()", style = "width:3in"})
+			</p>
+		</div>
+		<input type="hidden" value="" name="sortOrder" />
+	}
+	<div class="form-group" style="display: inline-block; margin: 17px 0 10px 10px">
+		<input type="submit" value="Change variant" class="btn btn-secondary" onclick="submitStudentsForm('/Students/Edit')" />
+	</div>
+	<div class="form-group" style="display: inline-block; margin: 17px 0 10px 10px">
+		<input type="submit" value="Remove" class="btn btn-secondary" onclick="submitStudentsForm('/Students/Delete')" />
+	</div>
+		<div class="form-group" style="display: inline-block; margin: 17px 0 10px 10px">
+			<input type="submit" value="Register" class="btn btn-primary" onclick="handleRegisterButton('@ViewBag.isLogged' === '@true')" />
+	</div>
+</div>
+@using (Html.BeginForm(FormMethod.Get, new { id = "students-form" }))
+{
+	if (ViewBag.VariantId != null)
+	{
+		<a asp-action="DownloadStudentsCsv" asp-route-variantId="@ViewBag.VariantId">Save to CSV</a>
+	}
+	<input type="hidden" value="@ViewBag.VariantId" name="variantId" />
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					<input checked="checked" id="selectAll" type="checkbox" value="true" />
+				</th>
+				<th>
+					<span class="filter-text" onclick="submitFilterForm('@ViewBag.NameSort')">
+						@Html.DisplayNameFor(model => model.Name)
+					</span>
+				</th>
+				<th>
+					<span class="filter-text" onclick="submitFilterForm('@ViewBag.LoginSort')">
+						@Html.DisplayNameFor(model => model.Login)
+					</span>
+				</th>
+				<th>
+					<span class="filter-text" onclick="submitFilterForm('@ViewBag.VariantSort')">
+						Selected Variant
+					</span>
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				string variantStyle = "";
+				if (item.Registered) 
+				{
+					variantStyle = "background-color: rgba(0, 255, 0, 0.2);";
+				}
+				<tr style="@variantStyle">
+					<td>
+						<input name="sIds" type="checkbox" value="@item.Id" checked />
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Name)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Login)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.RegisteredVariant)
+					</td>
+					<td>
+						<a asp-action="Details" asp-route-id="@item.Id">Details</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}

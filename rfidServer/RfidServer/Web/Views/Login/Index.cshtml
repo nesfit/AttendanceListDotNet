@@ -1,0 +1,42 @@
+﻿@{
+	ViewData["Title"] = "Login";
+}
+
+@if (@ViewBag.LoginFailed == true)
+{
+	<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		<strong>Login failed.</strong> Incorrect username or password or connection couldn't be established.
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+}
+<h1>Login</h1>
+<div class="row">
+	<div class="col-md-8">
+		<section style="margin-top: 10px">
+			<form method="post" role="form" class="form-horizontal">
+				@Html.AntiForgeryToken()
+				<div class="form-group">
+					<div class="col-md-5">
+						Username:
+						@Html.TextBox("Username", "", new { @class = "form-control" })
+						@Html.ValidationMessage("Username", "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-5">
+						Password:
+						@Html.Password("Password", "", new { @class = "form-control" })
+						@Html.ValidationMessage("Password", "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-offset-2 col-md-5">
+						<input type="submit" value="Login" class="btn btn-primary" />
+					</div>
+				</div>
+			</form>
+		</section>
+	</div>
+</div>

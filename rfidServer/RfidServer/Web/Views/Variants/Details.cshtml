@@ -1,0 +1,47 @@
+﻿@model RfidServer.Web.ViewModels.VariantViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Variant</h4>
+    <hr />
+    <dl class="row">
+	    <dt class = "col-sm-2">
+		    @Html.DisplayNameFor(model => model.Title)
+	    </dt>
+	    <dd class = "col-sm-10">
+		    @Html.DisplayFor(model => model.Title)
+	    </dd>
+	    <dt class = "col-sm-2">
+		    @Html.DisplayNameFor(model => model.Points)
+	    </dt>
+	    <dd class = "col-sm-10">
+		    @Html.DisplayFor(model => model.Points)
+	    </dd>
+	    <dt class="col-sm-2">
+		    @Html.DisplayNameFor(model => model.Course.Abbrv)
+	    </dt>
+	    <dd class="col-sm-10">
+		    @Html.DisplayFor(model => model.Course.Abbrv)
+	    </dd>
+	    <dt class="col-sm-2">
+		    @Html.DisplayNameFor(model => model.Course.Year)
+	    </dt>
+	    <dd class="col-sm-10">
+		    @Html.DisplayFor(model => model.Course.Year)
+	    </dd>
+	    <dt class="col-sm-2">
+		    @Html.DisplayNameFor(model => model.Course.Sem)
+	    </dt>
+	    <dd class="col-sm-10">
+		    @Html.DisplayFor(model => model.Course.Sem)
+	    </dd>
+    </dl>
+</div>
+<div>
+	<a asp-action="Index">Back to List</a>
+</div>

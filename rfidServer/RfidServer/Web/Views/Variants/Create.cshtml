@@ -1,0 +1,76 @@
+﻿@model IEnumerable<RfidServer.Web.ViewModels.VariantViewModel>
+
+@{
+	ViewData["Title"] = "Create";
+}
+
+<h1>Create Variant</h1>
+@if (Model != null)
+{
+	<table class="table table-hover">
+		<thead>
+		<tr>
+			<th class="">
+				@Html.DisplayNameFor(model => model.Title)
+			</th>
+			<th>
+				Curse
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.WisId)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Reg)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Limit)
+			</th>
+			<th></th>
+		</tr>
+		</thead>
+		<tbody>
+		@if (Model != null)
+		{
+			foreach (var variant in Model)
+			{
+				using (Html.BeginForm())
+				{
+					 <tr>
+						 <td>
+							 @Html.DisplayFor(modelVariant => variant.Title)
+						 </td>
+						 <td>
+							 @Html.DisplayFor(modelVariant => variant.Course.Abbrv)
+						 </td>
+						 <td>
+							 @Html.DisplayFor(modelVariant => variant.WisId)
+						 </td>
+						 <td>
+							 @Html.DisplayFor(modelVariant => variant.Reg)
+						 </td>
+						 <td>
+						 	 @Html.DisplayFor(modelVariant => variant.Limit)
+						 </td>
+						 <td>
+							 <input type="hidden" value="@variant.Title" name="variantVM.Title"/>
+							 <input type="hidden" value="@variant.WisId" name="variantVM.WisId"/>
+							 <input type="hidden" value="@variant.WisItemId" name="variantVM.WisItemId"/>
+							 <input type="hidden" value="@variant.Points" name="variantVM.Points"/>
+							 <input type="hidden" value="@variant.Reg" name="variantVM.Reg"/>
+							 <input type="hidden" value="@variant.Limit" name="variantVM.Limit"/>
+							 <input type="hidden" value="@variant.Course.WisId" name="variantVM.Course.WisId"/>
+							 <input type="hidden" value="@variant.Course.Abbrv" name="variantVM.Course.Abbrv"/>
+							 <input type="hidden" value="@variant.Course.Year" name="variantVM.Course.Year"/>
+							 <input type="hidden" value="@variant.Course.Sem" name="variantVM.Course.Sem"/>
+							 <input type="submit" value="Add" class="btn btn-primary"/>
+						 </td>
+					 </tr>
+				 }
+			}
+		}
+		</tbody>
+	</table>
+}
+<div>
+	<a asp-action="FindCourse" asp-route-searchString="@Model?.ElementAtOrDefault(0)?.Course.Abbrv">Back to courses</a>
+</div>

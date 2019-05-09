@@ -1,0 +1,157 @@
+﻿@model RfidServer.Web.ViewModels.CourseViewModel
+
+@{
+	ViewData["Title"] = "Find Course";
+}
+
+<h1>Find Course</h1>
+
+@using (Html.BeginForm())
+{
+	<div style="display: inline-block; margin: 10px 0 10px 10px">
+		<p>
+			Find course: @Html.TextBox("SearchString", "", new { @class = "form-control" })
+		</p>
+	</div>
+	<div style="display: inline-block;">
+		<input type="submit" value="Search"/>
+	</div>
+}
+@if (Model != null)
+{
+	<table class="table table-primary">
+		<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Title)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Abbrv)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.WisId)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Year)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Sem)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Lang)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Credits)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Completion)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.StudentsCount)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Capacity)
+			</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td>
+				@Html.DisplayFor(model => model.Title)
+			</td>
+			<td>
+				@Html.DisplayFor(model => model.Abbrv)
+			</td>
+			<td>
+				@Html.DisplayFor(model => model.WisId)
+			</td>
+			<td>
+				@Html.DisplayFor(model => model.Year)
+			</td>
+			<td>
+				@Html.DisplayFor(model => model.Sem)
+			</td>
+			<td>
+				@Html.DisplayFor(model => model.Lang)
+			</td>
+			<td>
+				@Html.DisplayFor(model => model.Credits)
+			</td>
+			<td>
+				@Html.DisplayFor(model => model.Completion)
+			</td>
+			<td>
+				@Html.DisplayFor(model => model.StudentsCount)
+			</td>
+			<td>
+				@Html.DisplayFor(model => model.Capacity)
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	<table class="table table-hover" style="margin-top: 50px">
+		<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Items)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.WisId)
+			</th>
+			<th></th>
+		</tr>
+		</thead>
+		<tbody>
+		@foreach (var item in Model.Items)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Title)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.WisId)
+				</td>
+				<td>
+					@if (item.Class == "select")
+					{
+						using (Html.BeginForm("Create", "Variants", FormMethod.Get))
+						{
+							<input type="hidden" value="@item.WisId" name="itemId" />
+							<input type="hidden" value="@item.Points" name="points" />
+							<input type="hidden" value="@Model.WisId" name="courseVM.WisId" />
+							<input type="hidden" value="@Model.Abbrv" name="courseVM.Abbrv" />
+							<input type="hidden" value="@Model.Year" name="courseVM.Year" />
+							<input type="hidden" value="@Model.Sem" name="courseVM.Sem" />
+							<input type="hidden" value="@Model.Lang" name="courseVM.Lang" />
+							<input type="hidden" value="@Model.Credits" name="courseVM.Credits" />
+							<input type="hidden" value="@Model.Title" name="courseVM.Title" />
+							<input type="hidden" value="@Model.Completion" name="courseVM.Completion" />
+							<input type="hidden" value="@Model.Capacity" name="courseVM.Capacity" />
+							<input type="hidden" value="@Model.StudentsCount" name="courseVM.StudentsCount" />
+							<input type="submit" value="Select" class="btn btn-secondary" />
+						}
+					}
+					else
+					{
+						using (Html.BeginForm("Create", "Variants", FormMethod.Post))
+						{
+							<input type="hidden" value="@item.Points" name="variantVM.Points" />
+							<input type="hidden" value="@item.Title" name="variantVM.Title" />
+							<input type="hidden" value="@item.WisId" name="variantVM.WisId" />
+							<input type="hidden" value="@item.WisId" name="variantVM.WisItemId" />
+							<input type="hidden" value="@Model.WisId" name="variantVM.Course.WisId" />
+							<input type="hidden" value="@Model.Abbrv" name="variantVM.Course.Abbrv" />
+							<input type="hidden" value="@Model.Year" name="variantVM.Course.Year" />
+							<input type="hidden" value="@Model.Sem" name="variantVM.Course.Sem" />
+							<input type="submit" value="Add" class="btn btn-primary" />
+						}
+					}
+				</td>
+			</tr>
+		}
+		</tbody>
+	</table>
+}
+<div>
+	<a asp-action="Index">Back to variants</a>
+</div>
